@@ -42,6 +42,7 @@ from codegen.schema_gen import (
 from codegen.schemas import BatchableAction
 from codegen.test_gen import generate_tests
 from codegen.utils import (
+    SpecOverrides,
     capitalize_first,
     escape_reserved_name,
     load_spec_overrides,
@@ -137,10 +138,26 @@ def main() -> None:
     log.info(f"API version: {api_version}")
 
     spec = get_openapi_specification(api_version)
+    spec_overrides = load_spec_overrides()
+    if spec_overrides.beta_operations:
+        if not spec_overrides.beta_spec_version:
+            sys.exit("beta_operations requires beta_spec_version in spec overrides")
+        log.info(f"Beta API version: {spec_overrides.beta_spec_version}")
+        merge_beta_operations(
+            spec,
+            get_openapi_specification(spec_overrides.beta_spec_version),
+            spec_overrides.beta_operations,
+        )
     batchable_actions = [
         BatchableAction.model_validate(action) for action in spec["x-batchable-actions"]
     ]
-    generate_library(OpenAPI.model_validate(spec), batchable_actions, client_version, api_version)
+    generate_library(
+        OpenAPI.model_validate(spec),
+        batchable_actions,
+        client_version,
+        api_version,
+        spec_overrides,
+    )
     elapsed = time.perf_counter() - t_start
     log.info(f"Completed code generation in {elapsed:.2f}s")
 
@@ -196,6 +213,42 @@ def get_openapi_specification(api_version: str) -> dict[str, Any]:
     return json.load(spec_path.open("r"))
 
 
+def _operations_by_id(spec: dict[str, Any]) -> dict[str, tuple[str, str, dict[str, Any]]]:
+    """Map operation IDs to (path, method, operation) in a raw OpenAPI spec."""
+    return {
+        operation["operationId"]: (path, method, operation)
+        for path, path_item in spec["paths"].items()
+        for method, operation in path_item.items()
+        if isinstance(operation, dict) and "operationId" in operation
+    }
+
+
+def merge_beta_operations(
+    spec: dict[str, Any], beta_spec: dict[str, Any], operation_ids: set[str]
+) -> None:
+    """Copy the selected operations from the beta spec into the GA spec in place.
+
+    Skips operations that already exist in the GA spec and logs a warning so the
+    override can be removed once Meraki promotes the operation.
+    """
+    ga_operations = _operations_by_id(spec)
+    beta_operations = _operations_by_id(beta_spec)
+    for operation_id in sorted(operation_ids):
+        if operation_id in ga_operations:
+            log.warning(
+                f"{operation_id} in beta_operations is now in the GA spec - "
+                "remove it from beta_operations"
+            )
+            continue
+        if operation_id not in beta_operations:
+            raise ValueError(f"beta_operations: unknown beta operation ID '{operation_id}'")
+        path, method, operation = beta_operations[operation_id]
+        # Component references would point at schemas that only exist in the beta spec.
+        if '"$ref"' in json.dumps(operation):
+            raise ValueError(f"beta_operations: {operation_id} uses $ref, which is unsupported")
+        spec["paths"].setdefault(path, {})[method] = operation
+
+
 def _validate_required_params(spec: OpenAPI, required_params: dict[str, set[str]]) -> None:
     """Fail fast if a required_params override names a missing operation or parameter."""
     operations = {
@@ -217,11 +270,14 @@ def _validate_required_params(spec: OpenAPI, required_params: dict[str, set[str]
 
 
 def generate_library(  # noqa: PLR0915
-    spec: OpenAPI, batchable_actions: list[BatchableAction], version_number: str, api_version: str
+    spec: OpenAPI,
+    batchable_actions: list[BatchableAction],
+    version_number: str,
+    api_version: str,
+    spec_overrides: SpecOverrides,
 ) -> None:
     """Generate the Meraki Python library using the public OpenAPI specification."""
     batchable_actions_map = {action.summary: action.operation for action in batchable_actions}
-    spec_overrides = load_spec_overrides()
     _validate_required_params(spec, spec_overrides.required_params)
 
     recreate_output_directory()
@@ -576,6 +632,7 @@ def generate_module(  # noqa: PLR0915
                 "return_description": return_description,
                 "response_example": response_example,
                 "use_raw_docstring": use_raw_docstring,
+                "is_beta": (endpoint.model_extra or {}).get("x-release-stage") == "beta",
             }
 
             is_optional_response = operation_id in optional_response

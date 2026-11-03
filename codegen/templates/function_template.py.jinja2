@@ -4,6 +4,11 @@
         {{ docstring_prefix }}{{ description }}
 
         [API documentation: {{ operation_id }}]({{ doc_url }})
+        {% if is_beta %}
+
+        Beta operation from Meraki's Early Access API. The organization must opt in to
+        Early Access API features, and the operation may change without notice.
+        {% endif %}
         {% if descriptions|length > 0 %}
 
         Args:

@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
     AssignNetworkWirelessEthernetPortsProfilesResponse,
+    ByOrganizationWirelessRadioRfHealthNeighborsRssiDeviceResponseItemsItem,
     CreateDeviceWirelessZigbeeEnrollmentResponse,
     CreateNetworkWirelessAirMarshalRuleMatch,
     CreateNetworkWirelessEthernetPortsProfilePortsItem,
@@ -83,8 +84,10 @@ from meraki_client.schemas import (
     GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem,
     GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem,
     GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem,
+    GetOrganizationWirelessDevicesTelemetryResponseItemsItem,
     GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem,
     GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem,
+    GetOrganizationWirelessRadioStatusByNetworkResponseItem,
     GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem,
     GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem,
     GetOrganizationWirelessSsidsOweByNetworkResponseItemsItem,
@@ -14668,4 +14671,354 @@ class Wireless:
             path=path,
             json=payload,
             response_schema=UpdateOrganizationWirelessZigbeeDoorLockResponse,
+        )
+
+    def by_organization_wireless_radio_rf_health_neighbors_rssi_device(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        bands: list[str] | None = None,
+        channels: list[int] | None = None,
+        serials: list[str] | None = None,
+        tags: list[str] | None = None,
+        models: list[str] | None = None,
+        rf_profiles: list[str] | None = None,
+        g_floorplan_id: str | None = None,
+        minimum_neighbor_rssi: int | None = None,
+        maximum_neighbor_rssi: int | None = None,
+        minimum_rf_health_score: int | None = None,
+        maximum_rf_health_score: int | None = None,
+        rf_score_interval: int | None = None,
+        rf_score_retry_on_empty: bool | None = None,
+    ) -> AsyncPaginatedResponse[
+        ByOrganizationWirelessRadioRfHealthNeighborsRssiDeviceResponseItemsItem
+    ]:
+        """Show the by-device neighbor rssi information for the organization in the given interval.
+
+        [API documentation: byOrganizationWirelessRadioRfHealthNeighborsRssiDevice](https://developer.cisco.com/meraki/api-v1/#!by-organization-wireless-radio-rf-health-neighbors-rssi-device)
+
+        Beta operation from Meraki's Early Access API. The organization must opt in to
+        Early Access API features, and the operation may change without notice.
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: Networks for which information should be gathered.
+            bands: Bands for which information should be gathered. Valid bands are 2.4, 5, and 6.
+            channels: Channel for which information should be gathered.
+            serials: Serial number of the devices for which information should be gathered.
+            tags: Access Point tags for which information should be gathered.
+            models: Access Point models for which information should be gathered.
+            rf_profiles: Rf Profiles for which information should be gathered.
+            g_floorplan_id: Geoaligned floorplan ID nodes for which information is gathered belong
+                to.
+            minimum_neighbor_rssi: Minimum Neighbor RSSI score for a neighbor entry to be retrieved.
+            maximum_neighbor_rssi: Maximum Neighbor RSSI score for a neighbor entry to be retrieved.
+            minimum_rf_health_score: Minimum RF Health score for an AP to be retrieved.
+            maximum_rf_health_score: Maximum RF Health score for an AP to be retrieved.
+            rf_score_interval: Size of the rf score interval in seconds.
+            rf_score_retry_on_empty: If true, the query will be retried further back if no data is
+                present in the latest rf score interval.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "ABC-123",
+                  "model": "HW-123",
+                  "mac": "aa:bb:cc:00:11:22",
+                  "network": {
+                    "id": "N_1234",
+                    "name": "MyNetwork"
+                  },
+                  "neighbors": {
+                    "total": 12,
+                    "byBand": [
+                      {
+                        "band": "2.4",
+                        "total": 7,
+                        "stats": [
+                          {
+                            "mac": "00:22:11:ff:ee:bb",
+                            "model": "MR42",
+                            "serial": "Q2BY-2871-2281",
+                            "rssi": -80,
+                            "channel": 6
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/radio/rfHealth/neighbors/rssi/byDevice"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if bands is not None:
+            params["bands[]"] = bands
+        if channels is not None:
+            params["channels[]"] = channels
+        if serials is not None:
+            params["serials[]"] = serials
+        if tags is not None:
+            params["tags[]"] = tags
+        if models is not None:
+            params["models[]"] = models
+        if rf_profiles is not None:
+            params["rfProfiles[]"] = rf_profiles
+        if g_floorplan_id is not None:
+            params["gFloorplanId"] = g_floorplan_id
+        if minimum_neighbor_rssi is not None:
+            params["minimumNeighborRssi"] = minimum_neighbor_rssi
+        if maximum_neighbor_rssi is not None:
+            params["maximumNeighborRssi"] = maximum_neighbor_rssi
+        if minimum_rf_health_score is not None:
+            params["minimumRfHealthScore"] = minimum_rf_health_score
+        if maximum_rf_health_score is not None:
+            params["maximumRfHealthScore"] = maximum_rf_health_score
+        if rf_score_interval is not None:
+            params["rfScoreInterval"] = rf_score_interval
+        if rf_score_retry_on_empty is not None:
+            params["rfScoreRetryOnEmpty"] = rf_score_retry_on_empty
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="byOrganizationWirelessRadioRfHealthNeighborsRssiDevice",
+            path=path,
+            params=params,
+            item_schema=ByOrganizationWirelessRadioRfHealthNeighborsRssiDeviceResponseItemsItem,
+        )
+
+    def get_organization_wireless_devices_telemetry(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[GetOrganizationWirelessDevicesTelemetryResponseItemsItem]:
+        """List the wireless device telemetry of an organization.
+
+        [API documentation: getOrganizationWirelessDevicesTelemetry](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-telemetry)
+
+        Beta operation from Meraki's Early Access API. The organization must opt in to
+        Early Access API features, and the operation may change without notice.
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 200. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 3 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 30 minutes after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 5 minutes and be less than or
+                equal to 30 minutes. The default is 30 minutes.
+            network_ids: Optional parameter to filter results by network.
+            serials: Optional parameter to filter results by device serial.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_24329156",
+                    "name": "Main Office",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ]
+                  },
+                  "name": "My AP",
+                  "serial": "Q234-ABCD-5678",
+                  "mac": "00:11:22:33:44:55",
+                  "tags": [
+                    "tag1",
+                    "tag2"
+                  ],
+                  "rfProfile": {
+                    "id": "1",
+                    "name": "Basic Indoor RF Profile"
+                  },
+                  "uplink": {
+                    "dhcpServerIp": "10.7.68.1"
+                  },
+                  "boot": {
+                    "lastBootedAt": "2026-04-10T07:30:42.123456Z",
+                    "uptime": 71342,
+                    "reportedAt": "2026-04-11T03:19:44.000000Z"
+                  },
+                  "metrics": [
+                    {
+                      "name": "Channel Utilization"
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/devices/telemetry"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessDevicesTelemetry",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationWirelessDevicesTelemetryResponseItemsItem,
+        )
+
+    def get_organization_wireless_radio_status_by_network(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+    ) -> AsyncPaginatedResponse[GetOrganizationWirelessRadioStatusByNetworkResponseItem]:
+        """Show the status of this organization's radios, categorized by network and device.
+
+        [API documentation: getOrganizationWirelessRadioStatusByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-radio-status-by-network)
+
+        Beta operation from Meraki's Early Access API. The organization must opt in to
+        Early Access API features, and the operation may change without notice.
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: Networks for which radio status should be returned.
+            serials: Serials for which radio status should be returned.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            [
+              {
+                "network": {
+                  "id": "N_1234",
+                  "name": "MyNetwork"
+                },
+                "data": {
+                  "byDevice": [
+                    {
+                      "serial": "ABC-123",
+                      "radios": [
+                        {
+                          "band": 6,
+                          "channelSettings": {
+                            "channel": 2,
+                            "width": 80,
+                            "dfs": {
+                              "radarDetected": false
+                            }
+                          },
+                          "powerSettings": {
+                            "transmitPower": 18,
+                            "mode": "lpi"
+                          },
+                          "status": "Up"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/radio/status/byNetwork"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessRadioStatusByNetwork",
+            path=path,
+            params=params,
+            item_schema=GetOrganizationWirelessRadioStatusByNetworkResponseItem,
         )

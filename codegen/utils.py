@@ -61,6 +61,8 @@ class SpecOverrides:
     extra_fields: dict[str, dict[str, str]] = field(default_factory=dict)
     inject_response_schema: dict[str, dict[str, Any]] = field(default_factory=dict)
     required_params: dict[str, set[str]] = field(default_factory=dict)
+    beta_spec_version: str | None = None
+    beta_operations: set[str] = field(default_factory=set)
 
 
 def load_spec_overrides() -> SpecOverrides:
@@ -100,4 +102,6 @@ def load_spec_overrides() -> SpecOverrides:
         extra_fields=extra_fields,
         inject_response_schema=inject_response_schema,
         required_params=required_params,
+        beta_spec_version=data.get("beta_spec_version"),
+        beta_operations=set(data.get("beta_operations", [])),
     )

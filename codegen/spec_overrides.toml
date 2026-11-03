@@ -13,6 +13,17 @@
 # - [operationId] extra_fields = {...}: Add fields missing from spec
 # - [operationId] inject_response_schema = "...": JSON string defining the full response schema
 #   when the spec has a bare {type: object} with no properties
+# - beta_spec_version + beta_operations: Operations copied from the pinned Meraki beta spec
+#   because they are missing from the GA spec
+
+# Early Access operations that are only in the beta spec. Codegen warns once an operation
+# reaches the GA spec. Bump beta_spec_version to pick up beta spec changes.
+beta_spec_version = "v1.75.1-beta.2"
+beta_operations = [
+  "byOrganizationWirelessRadioRfHealthNeighborsRssiDevice",
+  "getOrganizationWirelessDevicesTelemetry",
+  "getOrganizationWirelessRadioStatusByNetwork",
+]
 
 # Endpoints where spec says object but API returns array
 force_array_response = ["getAdministeredLicensingSubscriptionEntitlements"]
@@ -68,6 +79,10 @@ skip_tests = [
   "getNetworkWirelessUsageHistory",
   # Event not found or network not authorized
   "getNetworkFirmwareUpgradesStagedEvents",
+  # Early Access: requires the organization to opt in
+  "byOrganizationWirelessRadioRfHealthNeighborsRssiDevice",
+  "getOrganizationWirelessDevicesTelemetry",
+  "getOrganizationWirelessRadioStatusByNetwork",
 ]
 
 [getNetworkEvents]
@@ -398,3 +413,14 @@ response = { objectIds = "list[str]" }
 [updateOrganizationPolicyObjectsGroup]
 required = ["id", "name", "category", "createdAt", "updatedAt"]
 response = { objectIds = "list[str]" }
+
+[getOrganizationWirelessRadioStatusByNetwork]
+# Spec says integer, but the API returns band strings such as "2.4", "5", "6", or "".
+# The API also returns radio settings under `channel` and `power` instead of the spec's
+# `channelSettings` and `powerSettings`; those keys are kept as extra fields.
+response = { "data.byDevice.radios.band" = "str" }
+
+[getOrganizationWirelessDevicesTelemetry]
+# Spec says array, but the shape depends on the metric: e.g. "Client Count" returns an object
+# and "Channel Utilization" returns an array.
+response = { "items.metrics.values" = "Any" }

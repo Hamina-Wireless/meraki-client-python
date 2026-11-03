@@ -37,6 +37,16 @@ class AssignNetworkWirelessEthernetPortsProfilesResponse(_BaseSchema):
         return [] if value is None else value
 
 
+class ByOrganizationWirelessRadioRfHealthNeighborsRssiDeviceResponseItemsItem(_BaseSchema):
+    """Schema for ByOrganizationWirelessRadioRfHealthNeighborsRssiDeviceResponseItemsItem."""
+
+    serial: str | None = None
+    model: str | None = None
+    mac: str | None = None
+    network: IdNameRef | None = None
+    neighbors: WirelessNeighbors | None = None
+
+
 class CreateDeviceWirelessZigbeeEnrollmentResponse(_BaseSchema):
     """Response for createDeviceWirelessZigbeeEnrollment operation."""
 
@@ -1636,6 +1646,28 @@ class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseS
         return [] if value is None else value
 
 
+class GetOrganizationWirelessDevicesTelemetryResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessDevicesTelemetryResponseItemsItem."""
+
+    network: WirelessNetwork | None = None
+    name: str | None = None
+    serial: str | None = None
+    mac: str | None = None
+    tags: list[str] = Field(default_factory=list)
+    rf_profile: IdNameRef | None = Field(
+        default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
+    )
+    uplink: WirelessUplink | None = None
+    boot: WirelessBoot | None = None
+    metrics: list[WirelessMetricsItem] = Field(default_factory=list)
+
+    @field_validator("tags", "metrics", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem."""
 
@@ -1669,6 +1701,19 @@ class GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem(_BaseSch
     name: str | None = None
     enabled: bool | None = None
     api: UpdateNetworkWirelessLocationScanningResponseApi | None = None
+
+
+class GetOrganizationWirelessRadioStatusByNetworkResponse(
+    RootModel[list["GetOrganizationWirelessRadioStatusByNetworkResponseItem"]]
+):
+    """Response for getOrganizationWirelessRadioStatusByNetwork operation."""
+
+
+class GetOrganizationWirelessRadioStatusByNetworkResponseItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessRadioStatusByNetworkResponseItem."""
+
+    network: IdNameRef | None = None
+    data: WirelessData | None = None
 
 
 class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponse(
@@ -4325,6 +4370,20 @@ class WirelessBonjourForwarding2(_BaseSchema):
         return [] if value is None else value
 
 
+class WirelessBoot(_BaseSchema):
+    """Latest known boot and uptime state for the device. This field is not filtered by the
+    requested t0/t1 or timespan. Null when no recent valid boot state is available.
+    """
+
+    last_booted_at: datetime | None = Field(
+        default=None, validation_alias="lastBootedAt", serialization_alias="lastBootedAt"
+    )
+    uptime: int | None = None
+    reported_at: datetime | None = Field(
+        default=None, validation_alias="reportedAt", serialization_alias="reportedAt"
+    )
+
+
 class WirelessBssidsItem(_BaseSchema):
     """Schema for WirelessBssidsItem."""
 
@@ -4375,6 +4434,33 @@ class WirelessByBandItem(_BaseSchema):
     total: WirelessWifi | None = None
 
 
+class WirelessByBandItem2(_BaseSchema):
+    """Schema for WirelessByBandItem2."""
+
+    band: str | None = None
+    total: int | None = None
+    stats: list[WirelessStatsItem] = Field(default_factory=list)
+
+    @field_validator("stats", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class WirelessByDeviceItem(_BaseSchema):
+    """Schema for WirelessByDeviceItem."""
+
+    serial: str | None = None
+    radios: list[WirelessRadiosItem] = Field(default_factory=list)
+
+    @field_validator("radios", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class WirelessByProductType(_BaseSchema):
     """Details by product type."""
 
@@ -4423,6 +4509,14 @@ class WirelessChannelSelection(_BaseSchema):
     """Channel selection settings."""
 
     preferred: WirelessPreferred | None = None
+
+
+class WirelessChannelSettings(_BaseSchema):
+    """Current channel settings for this radio."""
+
+    channel: int | None = None
+    width: int | None = None
+    dfs: WirelessDfs | None = None
 
 
 class WirelessClient(_BaseSchema):
@@ -4498,6 +4592,20 @@ class WirelessDas(_BaseSchema):
     coa: EnabledSetting | None = None
 
 
+class WirelessData(_BaseSchema):
+    """Operational data."""
+
+    by_device: list[WirelessByDeviceItem] = Field(
+        default_factory=list, validation_alias="byDevice", serialization_alias="byDevice"
+    )
+
+    @field_validator("by_device", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class WirelessDetailsItem(_BaseSchema):
     """Schema for WirelessDetailsItem."""
 
@@ -4533,6 +4641,14 @@ class WirelessDevices2(_BaseSchema):
 
     old: WirelessOld | None = None
     new: WirelessNew
+
+
+class WirelessDfs(_BaseSchema):
+    """DFS (Dynamic Frequency Selection) settings."""
+
+    radar_detected: bool | None = Field(
+        default=None, validation_alias="radarDetected", serialization_alias="radarDetected"
+    )
 
 
 class WirelessDhcp(_BaseSchema):
@@ -4935,6 +5051,13 @@ class WirelessMeta(_BaseSchema):
     counts: WirelessCounts2 | None = None
 
 
+class WirelessMetricsItem(_BaseSchema):
+    """Schema for WirelessMetricsItem."""
+
+    name: str | None = None
+    values: Any | None = None
+
+
 class WirelessModesItem(_BaseSchema):
     """Schema for WirelessModesItem."""
 
@@ -4986,6 +5109,21 @@ class WirelessNamedVlansPoolDhcpMonitoring(_BaseSchema):
 
     enabled: bool | None = None
     duration: int | None = None
+
+
+class WirelessNeighbors(_BaseSchema):
+    """Neighbor information for the device."""
+
+    total: int | None = None
+    by_band: list[WirelessByBandItem2] = Field(
+        default_factory=list, validation_alias="byBand", serialization_alias="byBand"
+    )
+
+    @field_validator("by_band", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WirelessNetwork(_BaseSchema):
@@ -5226,6 +5364,15 @@ class WirelessPower(_BaseSchema):
     poe: WirelessAc | None = None
 
 
+class WirelessPowerSettings(_BaseSchema):
+    """Current power settings for this radio."""
+
+    transmit_power: int | None = Field(
+        default=None, validation_alias="transmitPower", serialization_alias="transmitPower"
+    )
+    mode: str | None = None
+
+
 class WirelessPreAccess(_BaseSchema):
     """Pre-access settings before splash completion."""
 
@@ -5267,6 +5414,19 @@ class WirelessRadio2(_BaseSchema):
         default=None, validation_alias="isBroadcasting", serialization_alias="isBroadcasting"
     )
     index: str | None = None
+
+
+class WirelessRadiosItem(_BaseSchema):
+    """Schema for WirelessRadiosItem."""
+
+    band: str | None = None
+    channel_settings: WirelessChannelSettings | None = Field(
+        default=None, validation_alias="channelSettings", serialization_alias="channelSettings"
+    )
+    power_settings: WirelessPowerSettings | None = Field(
+        default=None, validation_alias="powerSettings", serialization_alias="powerSettings"
+    )
+    status: str | None = None
 
 
 class WirelessRadius(_BaseSchema):
@@ -5574,6 +5734,16 @@ class WirelessSsids(_BaseSchema):
     encrypted: WirelessLegacy | None = None
 
 
+class WirelessStatsItem(_BaseSchema):
+    """Schema for WirelessStatsItem."""
+
+    mac: str | None = None
+    model: str | None = None
+    serial: str | None = None
+    rssi: int | None = None
+    channel: int | None = None
+
+
 class WirelessTagging(_BaseSchema):
     """VLAN tagging settings."""
 
@@ -5611,6 +5781,14 @@ class WirelessTunneledTo(_BaseSchema):
 
     network: IdNameRefStrict
     cluster: IdNameRefStrict
+
+
+class WirelessUplink(_BaseSchema):
+    """Uplink metadata for the device."""
+
+    dhcp_server_ip: str | None = Field(
+        default=None, validation_alias="dhcpServerIp", serialization_alias="dhcpServerIp"
+    )
 
 
 class WirelessUsage(_BaseSchema):

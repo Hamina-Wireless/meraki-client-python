@@ -41,6 +41,10 @@ tests/
 
 Some endpoints have bugs in the OpenAPI spec. Workarounds are configured in `codegen/spec_overrides.toml`. The generator validates that overrides reference existing operations and logs warnings when the spec appears fixed.
 
+### Beta Operations
+
+Early Access operations that are only in Meraki's beta spec can be added with `beta_operations` in `codegen/spec_overrides.toml`. The generator downloads the beta spec pinned by `beta_spec_version` (a [meraki/openapi tag](https://github.com/meraki/openapi/tags) such as `v1.75.1-beta.2`) and copies only the listed operations into the GA spec. It logs a warning once an operation is in the GA spec, so it can be removed from the list.
+
 ## Testing
 
 Tests require a Meraki API key with access to an organization:

@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Added
+
+- Added Early Access wireless operations from Meraki's beta API: `get_organization_wireless_devices_telemetry`, `get_organization_wireless_radio_status_by_network`, and `by_organization_wireless_radio_rf_health_neighbors_rssi_device`. Their docstrings note that the organization must opt in to Early Access API features.
+- Added `beta_spec_version` and `beta_operations` spec overrides that copy selected operations from a pinned Meraki beta spec into the generated client.
 
 ## v0.22.0
 
