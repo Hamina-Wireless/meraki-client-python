@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Passing `None` explicitly to a nullable request body field now sends `null` instead of leaving the field out. Omit the argument to leave the field unchanged.
+- **Breaking:** passing `None` explicitly to a nullable request body field now sends `null` instead of leaving the field out. Omit the argument to leave the field unchanged.
 
 ## v0.22.0
 
