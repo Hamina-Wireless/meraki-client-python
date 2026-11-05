@@ -10,6 +10,7 @@ from __future__ import annotations
 import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
+from meraki_client._common import UNSET, Unset
 from meraki_client.schemas import (
     BatchNetworkFloorPlansAutoLocateJobsJobsItem,
     BatchNetworkFloorPlansAutoLocateJobsResponse,
@@ -223,7 +224,7 @@ class Networks:
         time_zone: str | None = None,
         tags: list[str] | None = None,
         enrollment_string: str | None = None,
-        notes: str | None = None,
+        notes: str | Unset | None = UNSET,
     ) -> NetworkResponse:
         """Update a network.
 
@@ -282,7 +283,7 @@ class Networks:
             payload["tags"] = tags
         if enrollment_string is not None:
             payload["enrollmentString"] = enrollment_string
-        if notes is not None:
+        if notes is not UNSET:
             payload["notes"] = notes
 
         return await self._session.put(
@@ -8540,7 +8541,7 @@ class Networks:
         network_id: str,
         name: str,
         body: str | None = None,
-        headers: list[CreateNetworkWebhooksPayloadTemplateHeadersItem] | None = None,
+        headers: list[CreateNetworkWebhooksPayloadTemplateHeadersItem] | Unset | None = UNSET,
         body_file: str | None = None,
         headers_file: str | None = None,
     ) -> NetworkWebhooksPayloadTemplateResponse:
@@ -8592,7 +8593,9 @@ class Networks:
             payload["name"] = name
         if body is not None:
             payload["body"] = body
-        if headers is not None:
+        if headers is None:
+            payload["headers"] = None
+        elif headers is not UNSET:
             payload["headers"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in headers
             ]
@@ -8663,7 +8666,7 @@ class Networks:
         payload_template_id: str,
         name: str | None = None,
         body: str | None = None,
-        headers: list[UpdateNetworkWebhooksPayloadTemplateHeadersItem] | None = None,
+        headers: list[UpdateNetworkWebhooksPayloadTemplateHeadersItem] | Unset | None = UNSET,
         body_file: str | None = None,
         headers_file: str | None = None,
     ) -> NetworkWebhooksPayloadTemplateResponse:
@@ -8714,7 +8717,9 @@ class Networks:
             payload["name"] = name
         if body is not None:
             payload["body"] = body
-        if headers is not None:
+        if headers is None:
+            payload["headers"] = None
+        elif headers is not UNSET:
             payload["headers"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in headers
             ]

@@ -10,6 +10,7 @@ from __future__ import annotations
 import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
+from meraki_client._common import UNSET, Unset
 from meraki_client.schemas import (
     CloneOrganizationSwitchDevicesResponse,
     CreateDeviceSwitchRoutingInterfaceBidirectionalForwardingDetection,
@@ -609,31 +610,31 @@ class Switch:
         *,
         serial: str,
         port_id: str,
-        name: str | None = None,
+        name: str | Unset | None = UNSET,
         tags: list[str] | None = None,
         enabled: bool | None = None,
         poe_enabled: bool | None = None,
         perpetual_poe: UpdateDeviceSwitchPortPerpetualPoe | None = None,
         fast_poe: UpdateDeviceSwitchPortFastPoe | None = None,
         type_: UpdateDeviceSwitchPortType | None = None,
-        vlan: int | None = None,
-        voice_vlan: int | None = None,
+        vlan: int | Unset | None = UNSET,
+        voice_vlan: int | Unset | None = UNSET,
         allowed_vlans: str | None = None,
         isolation_enabled: bool | None = None,
         rstp_enabled: bool | None = None,
         stp_guard: UpdateDeviceSwitchPortStpGuard | None = None,
         stp_port_fast_trunk: bool | None = None,
         link_negotiation: str | None = None,
-        port_schedule_id: str | None = None,
+        port_schedule_id: str | Unset | None = UNSET,
         udld: UpdateDeviceSwitchPortUdld | None = None,
         access_policy_type: UpdateDeviceSwitchPortAccessPolicyType | None = None,
         access_policy_number: int | None = None,
         mac_allow_list: list[str] | None = None,
-        mac_whitelist_limit: int | None = None,
+        mac_whitelist_limit: int | Unset | None = UNSET,
         sticky_mac_allow_list: list[str] | None = None,
         sticky_mac_allow_list_limit: int | None = None,
         storm_control_enabled: bool | None = None,
-        adaptive_policy_group_id: str | None = None,
+        adaptive_policy_group_id: str | Unset | None = UNSET,
         peer_sgt_capable: bool | None = None,
         flexible_stacking_enabled: bool | None = None,
         dai_trusted: bool | None = None,
@@ -793,7 +794,7 @@ class Switch:
         path = f"/devices/{serial}/switch/ports/{port_id}"
 
         payload: dict[str, Any] = {}
-        if name is not None:
+        if name is not UNSET:
             payload["name"] = name
         if tags is not None:
             payload["tags"] = tags
@@ -807,9 +808,9 @@ class Switch:
             payload["fastPoe"] = fast_poe.model_dump(by_alias=True, exclude_none=True)
         if type_ is not None:
             payload["type"] = type_
-        if vlan is not None:
+        if vlan is not UNSET:
             payload["vlan"] = vlan
-        if voice_vlan is not None:
+        if voice_vlan is not UNSET:
             payload["voiceVlan"] = voice_vlan
         if allowed_vlans is not None:
             payload["allowedVlans"] = allowed_vlans
@@ -823,7 +824,7 @@ class Switch:
             payload["stpPortFastTrunk"] = stp_port_fast_trunk
         if link_negotiation is not None:
             payload["linkNegotiation"] = link_negotiation
-        if port_schedule_id is not None:
+        if port_schedule_id is not UNSET:
             payload["portScheduleId"] = port_schedule_id
         if udld is not None:
             payload["udld"] = udld
@@ -833,7 +834,7 @@ class Switch:
             payload["accessPolicyNumber"] = access_policy_number
         if mac_allow_list is not None:
             payload["macAllowList"] = mac_allow_list
-        if mac_whitelist_limit is not None:
+        if mac_whitelist_limit is not UNSET:
             payload["macWhitelistLimit"] = mac_whitelist_limit
         if sticky_mac_allow_list is not None:
             payload["stickyMacAllowList"] = sticky_mac_allow_list
@@ -841,7 +842,7 @@ class Switch:
             payload["stickyMacAllowListLimit"] = sticky_mac_allow_list_limit
         if storm_control_enabled is not None:
             payload["stormControlEnabled"] = storm_control_enabled
-        if adaptive_policy_group_id is not None:
+        if adaptive_policy_group_id is not UNSET:
             payload["adaptivePolicyGroupId"] = adaptive_policy_group_id
         if peer_sgt_capable is not None:
             payload["peerSgtCapable"] = peer_sgt_capable
@@ -962,12 +963,12 @@ class Switch:
         serial: str,
         name: str,
         mode: CreateDeviceSwitchRoutingInterfaceMode | None = None,
-        subnet: str | None = None,
-        switch_port_id: str | None = None,
-        interface_ip: str | None = None,
-        mtu: int | None = None,
+        subnet: str | Unset | None = UNSET,
+        switch_port_id: str | Unset | None = UNSET,
+        interface_ip: str | Unset | None = UNSET,
+        mtu: int | Unset | None = UNSET,
         multicast_routing: CreateDeviceSwitchRoutingInterfaceMulticastRouting | None = None,
-        vlan_id: int | None = None,
+        vlan_id: int | Unset | None = UNSET,
         default_gateway: str | None = None,
         ospf_settings: CreateDeviceSwitchRoutingInterfaceOspfSettings | None = None,
         ipv6: CreateDeviceSwitchRoutingInterfaceIpv6 | None = None,
@@ -1068,17 +1069,17 @@ class Switch:
             payload["name"] = name
         if mode is not None:
             payload["mode"] = mode
-        if subnet is not None:
+        if subnet is not UNSET:
             payload["subnet"] = subnet
-        if switch_port_id is not None:
+        if switch_port_id is not UNSET:
             payload["switchPortId"] = switch_port_id
-        if interface_ip is not None:
+        if interface_ip is not UNSET:
             payload["interfaceIp"] = interface_ip
-        if mtu is not None:
+        if mtu is not UNSET:
             payload["mtu"] = mtu
         if multicast_routing is not None:
             payload["multicastRouting"] = multicast_routing
-        if vlan_id is not None:
+        if vlan_id is not UNSET:
             payload["vlanId"] = vlan_id
         if default_gateway is not None:
             payload["defaultGateway"] = default_gateway
@@ -1183,12 +1184,12 @@ class Switch:
         serial: str,
         interface_id: str,
         name: str | None = None,
-        subnet: str | None = None,
-        switch_port_id: str | None = None,
-        interface_ip: str | None = None,
-        mtu: int | None = None,
+        subnet: str | Unset | None = UNSET,
+        switch_port_id: str | Unset | None = UNSET,
+        interface_ip: str | Unset | None = UNSET,
+        mtu: int | Unset | None = UNSET,
         multicast_routing: UpdateDeviceSwitchRoutingInterfaceMulticastRouting | None = None,
-        vlan_id: int | None = None,
+        vlan_id: int | Unset | None = UNSET,
         default_gateway: str | None = None,
         ospf_settings: UpdateDeviceSwitchRoutingInterfaceOspfSettings | None = None,
         ipv6: UpdateDeviceSwitchRoutingInterfaceIpv6 | None = None,
@@ -1285,17 +1286,17 @@ class Switch:
         payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
-        if subnet is not None:
+        if subnet is not UNSET:
             payload["subnet"] = subnet
-        if switch_port_id is not None:
+        if switch_port_id is not UNSET:
             payload["switchPortId"] = switch_port_id
-        if interface_ip is not None:
+        if interface_ip is not UNSET:
             payload["interfaceIp"] = interface_ip
-        if mtu is not None:
+        if mtu is not UNSET:
             payload["mtu"] = mtu
         if multicast_routing is not None:
             payload["multicastRouting"] = multicast_routing
-        if vlan_id is not None:
+        if vlan_id is not UNSET:
             payload["vlanId"] = vlan_id
         if default_gateway is not None:
             payload["defaultGateway"] = default_gateway
@@ -1428,7 +1429,7 @@ class Switch:
         fixed_ip_assignments: list[UpdateDeviceSwitchRoutingInterfaceDhcpFixedIpAssignmentsItem]
         | None = None,
         dhcp_default_router_ips: str | None = None,
-        dhcp_domain_name: str | None = None,
+        dhcp_domain_name: str | Unset | None = UNSET,
     ) -> GetDeviceSwitchRoutingInterfaceDhcpResponse:
         """Update a layer 3 interface DHCP configuration for a switch.
 
@@ -1545,7 +1546,7 @@ class Switch:
             ]
         if dhcp_default_router_ips is not None:
             payload["dhcpDefaultRouterIps"] = dhcp_default_router_ips
-        if dhcp_domain_name is not None:
+        if dhcp_domain_name is not UNSET:
             payload["dhcpDomainName"] = dhcp_domain_name
 
         return self._session.put(
@@ -1727,7 +1728,7 @@ class Switch:
         name: str | None = None,
         subnet: str | None = None,
         next_hop_ip: str | None = None,
-        management_next_hop: str | None = None,
+        management_next_hop: str | Unset | None = UNSET,
         advertise_via_ospf_enabled: bool | None = None,
         prefer_over_ospf_routes_enabled: bool | None = None,
         vrf: UpdateDeviceSwitchRoutingStaticRouteVrf | None = None,
@@ -1781,7 +1782,7 @@ class Switch:
             payload["subnet"] = subnet
         if next_hop_ip is not None:
             payload["nextHopIp"] = next_hop_ip
-        if management_next_hop is not None:
+        if management_next_hop is not UNSET:
             payload["managementNextHop"] = management_next_hop
         if advertise_via_ospf_enabled is not None:
             payload["advertiseViaOspfEnabled"] = advertise_via_ospf_enabled
@@ -2113,13 +2114,13 @@ class Switch:
         host_mode: CreateNetworkSwitchAccessPolicyHostMode | None = None,
         access_policy_type: CreateNetworkSwitchAccessPolicyAccessPolicyType | None = None,
         increase_access_speed: bool | None = None,
-        guest_vlan_id: int | None = None,
+        guest_vlan_id: int | Unset | None = UNSET,
         dot1x: CreateNetworkSwitchAccessPolicyDot1x | None = None,
         voice_vlan_clients: bool | None = None,
         url_redirect_walled_garden_enabled: bool | None = None,
         url_redirect_walled_garden_ranges: list[str] | None = None,
-        guest_group_policy_id: str | None = None,
-        guest_sgt_id: int | None = None,
+        guest_group_policy_id: str | Unset | None = UNSET,
+        guest_sgt_id: int | Unset | None = UNSET,
     ) -> NetworkSwitchAccessPolicyResponse:
         """Create an access policy for a switch network.
 
@@ -2277,7 +2278,7 @@ class Switch:
             payload["accessPolicyType"] = access_policy_type
         if increase_access_speed is not None:
             payload["increaseAccessSpeed"] = increase_access_speed
-        if guest_vlan_id is not None:
+        if guest_vlan_id is not UNSET:
             payload["guestVlanId"] = guest_vlan_id
         if dot1x is not None:
             payload["dot1x"] = dot1x.model_dump(by_alias=True, exclude_none=True)
@@ -2287,9 +2288,9 @@ class Switch:
             payload["urlRedirectWalledGardenEnabled"] = url_redirect_walled_garden_enabled
         if url_redirect_walled_garden_ranges is not None:
             payload["urlRedirectWalledGardenRanges"] = url_redirect_walled_garden_ranges
-        if guest_group_policy_id is not None:
+        if guest_group_policy_id is not UNSET:
             payload["guestGroupPolicyId"] = guest_group_policy_id
-        if guest_sgt_id is not None:
+        if guest_sgt_id is not UNSET:
             payload["guestSgtId"] = guest_sgt_id
 
         return self._session.post(
@@ -2422,13 +2423,13 @@ class Switch:
         host_mode: UpdateNetworkSwitchAccessPolicyHostMode | None = None,
         access_policy_type: UpdateNetworkSwitchAccessPolicyAccessPolicyType | None = None,
         increase_access_speed: bool | None = None,
-        guest_vlan_id: int | None = None,
+        guest_vlan_id: int | Unset | None = UNSET,
         dot1x: UpdateNetworkSwitchAccessPolicyDot1x | None = None,
         voice_vlan_clients: bool | None = None,
         url_redirect_walled_garden_enabled: bool | None = None,
         url_redirect_walled_garden_ranges: list[str] | None = None,
-        guest_group_policy_id: str | None = None,
-        guest_sgt_id: int | None = None,
+        guest_group_policy_id: str | Unset | None = UNSET,
+        guest_sgt_id: int | Unset | None = UNSET,
     ) -> NetworkSwitchAccessPolicyResponse:
         """Update an access policy for a switch network.
 
@@ -2588,7 +2589,7 @@ class Switch:
             payload["accessPolicyType"] = access_policy_type
         if increase_access_speed is not None:
             payload["increaseAccessSpeed"] = increase_access_speed
-        if guest_vlan_id is not None:
+        if guest_vlan_id is not UNSET:
             payload["guestVlanId"] = guest_vlan_id
         if dot1x is not None:
             payload["dot1x"] = dot1x.model_dump(by_alias=True, exclude_none=True)
@@ -2598,9 +2599,9 @@ class Switch:
             payload["urlRedirectWalledGardenEnabled"] = url_redirect_walled_garden_enabled
         if url_redirect_walled_garden_ranges is not None:
             payload["urlRedirectWalledGardenRanges"] = url_redirect_walled_garden_ranges
-        if guest_group_policy_id is not None:
+        if guest_group_policy_id is not UNSET:
             payload["guestGroupPolicyId"] = guest_group_policy_id
-        if guest_sgt_id is not None:
+        if guest_sgt_id is not UNSET:
             payload["guestSgtId"] = guest_sgt_id
 
         return self._session.put(
@@ -4042,9 +4043,9 @@ class Switch:
         network_id: str,
         vlan: int,
         protocol: CreateNetworkSwitchQosRuleProtocol | None = None,
-        src_port: int | None = None,
+        src_port: int | Unset | None = UNSET,
         src_port_range: str | None = None,
-        dst_port: int | None = None,
+        dst_port: int | Unset | None = UNSET,
         dst_port_range: str | None = None,
         dscp: int | None = None,
     ) -> NetworkSwitchQosRuleResponse:
@@ -4093,11 +4094,11 @@ class Switch:
             payload["vlan"] = vlan
         if protocol is not None:
             payload["protocol"] = protocol
-        if src_port is not None:
+        if src_port is not UNSET:
             payload["srcPort"] = src_port
         if src_port_range is not None:
             payload["srcPortRange"] = src_port_range
-        if dst_port is not None:
+        if dst_port is not UNSET:
             payload["dstPort"] = dst_port
         if dst_port_range is not None:
             payload["dstPortRange"] = dst_port_range
@@ -4232,11 +4233,11 @@ class Switch:
         *,
         network_id: str,
         qos_rule_id: str,
-        vlan: int | None = None,
+        vlan: int | Unset | None = UNSET,
         protocol: UpdateNetworkSwitchQosRuleProtocol | None = None,
-        src_port: int | None = None,
+        src_port: int | Unset | None = UNSET,
         src_port_range: str | None = None,
-        dst_port: int | None = None,
+        dst_port: int | Unset | None = UNSET,
         dst_port_range: str | None = None,
         dscp: int | None = None,
     ) -> NetworkSwitchQosRuleResponse:
@@ -4283,15 +4284,15 @@ class Switch:
         path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
         payload: dict[str, Any] = {}
-        if vlan is not None:
+        if vlan is not UNSET:
             payload["vlan"] = vlan
         if protocol is not None:
             payload["protocol"] = protocol
-        if src_port is not None:
+        if src_port is not UNSET:
             payload["srcPort"] = src_port
         if src_port_range is not None:
             payload["srcPortRange"] = src_port_range
-        if dst_port is not None:
+        if dst_port is not UNSET:
             payload["dstPort"] = dst_port
         if dst_port_range is not None:
             payload["dstPortRange"] = dst_port_range
@@ -5429,12 +5430,12 @@ class Switch:
         switch_stack_id: str,
         name: str,
         mode: CreateNetworkSwitchStackRoutingInterfaceMode | None = None,
-        subnet: str | None = None,
-        switch_port_id: str | None = None,
-        interface_ip: str | None = None,
-        mtu: int | None = None,
+        subnet: str | Unset | None = UNSET,
+        switch_port_id: str | Unset | None = UNSET,
+        interface_ip: str | Unset | None = UNSET,
+        mtu: int | Unset | None = UNSET,
         multicast_routing: CreateNetworkSwitchStackRoutingInterfaceMulticastRouting | None = None,
-        vlan_id: int | None = None,
+        vlan_id: int | Unset | None = UNSET,
         default_gateway: str | None = None,
         ospf_settings: CreateNetworkSwitchStackRoutingInterfaceOspfSettings | None = None,
         ipv6: CreateNetworkSwitchStackRoutingInterfaceIpv6 | None = None,
@@ -5537,17 +5538,17 @@ class Switch:
             payload["name"] = name
         if mode is not None:
             payload["mode"] = mode
-        if subnet is not None:
+        if subnet is not UNSET:
             payload["subnet"] = subnet
-        if switch_port_id is not None:
+        if switch_port_id is not UNSET:
             payload["switchPortId"] = switch_port_id
-        if interface_ip is not None:
+        if interface_ip is not UNSET:
             payload["interfaceIp"] = interface_ip
-        if mtu is not None:
+        if mtu is not UNSET:
             payload["mtu"] = mtu
         if multicast_routing is not None:
             payload["multicastRouting"] = multicast_routing
-        if vlan_id is not None:
+        if vlan_id is not UNSET:
             payload["vlanId"] = vlan_id
         if default_gateway is not None:
             payload["defaultGateway"] = default_gateway
@@ -5655,12 +5656,12 @@ class Switch:
         switch_stack_id: str,
         interface_id: str,
         name: str | None = None,
-        subnet: str | None = None,
-        switch_port_id: str | None = None,
-        interface_ip: str | None = None,
-        mtu: int | None = None,
+        subnet: str | Unset | None = UNSET,
+        switch_port_id: str | Unset | None = UNSET,
+        interface_ip: str | Unset | None = UNSET,
+        mtu: int | Unset | None = UNSET,
         multicast_routing: UpdateNetworkSwitchStackRoutingInterfaceMulticastRouting | None = None,
-        vlan_id: int | None = None,
+        vlan_id: int | Unset | None = UNSET,
         default_gateway: str | None = None,
         ospf_settings: UpdateNetworkSwitchStackRoutingInterfaceOspfSettings | None = None,
         ipv6: UpdateNetworkSwitchStackRoutingInterfaceIpv6 | None = None,
@@ -5758,17 +5759,17 @@ class Switch:
         payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
-        if subnet is not None:
+        if subnet is not UNSET:
             payload["subnet"] = subnet
-        if switch_port_id is not None:
+        if switch_port_id is not UNSET:
             payload["switchPortId"] = switch_port_id
-        if interface_ip is not None:
+        if interface_ip is not UNSET:
             payload["interfaceIp"] = interface_ip
-        if mtu is not None:
+        if mtu is not UNSET:
             payload["mtu"] = mtu
         if multicast_routing is not None:
             payload["multicastRouting"] = multicast_routing
-        if vlan_id is not None:
+        if vlan_id is not UNSET:
             payload["vlanId"] = vlan_id
         if default_gateway is not None:
             payload["defaultGateway"] = default_gateway
@@ -5911,7 +5912,7 @@ class Switch:
         ]
         | None = None,
         dhcp_default_router_ips: str | None = None,
-        dhcp_domain_name: str | None = None,
+        dhcp_domain_name: str | Unset | None = UNSET,
     ) -> GetDeviceSwitchRoutingInterfaceDhcpResponse:
         """Update a layer 3 interface DHCP configuration for a switch stack.
 
@@ -6030,7 +6031,7 @@ class Switch:
             ]
         if dhcp_default_router_ips is not None:
             payload["dhcpDefaultRouterIps"] = dhcp_default_router_ips
-        if dhcp_domain_name is not None:
+        if dhcp_domain_name is not UNSET:
             payload["dhcpDomainName"] = dhcp_domain_name
 
         return self._session.put(
@@ -6220,7 +6221,7 @@ class Switch:
         name: str | None = None,
         subnet: str | None = None,
         next_hop_ip: str | None = None,
-        management_next_hop: str | None = None,
+        management_next_hop: str | Unset | None = UNSET,
         advertise_via_ospf_enabled: bool | None = None,
         prefer_over_ospf_routes_enabled: bool | None = None,
         vrf: UpdateNetworkSwitchStackRoutingStaticRouteVrf | None = None,
@@ -6276,7 +6277,7 @@ class Switch:
             payload["subnet"] = subnet
         if next_hop_ip is not None:
             payload["nextHopIp"] = next_hop_ip
-        if management_next_hop is not None:
+        if management_next_hop is not UNSET:
             payload["managementNextHop"] = management_next_hop
         if advertise_via_ospf_enabled is not None:
             payload["advertiseViaOspfEnabled"] = advertise_via_ospf_enabled
@@ -6799,28 +6800,28 @@ class Switch:
         config_template_id: str,
         profile_id: str,
         port_id: str,
-        name: str | None = None,
+        name: str | Unset | None = UNSET,
         tags: list[str] | None = None,
         enabled: bool | None = None,
         poe_enabled: bool | None = None,
         perpetual_poe: UpdateOrganizationConfigTemplateSwitchProfilePortPerpetualPoe | None = None,
         fast_poe: UpdateOrganizationConfigTemplateSwitchProfilePortFastPoe | None = None,
         type_: UpdateOrganizationConfigTemplateSwitchProfilePortType | None = None,
-        vlan: int | None = None,
-        voice_vlan: int | None = None,
+        vlan: int | Unset | None = UNSET,
+        voice_vlan: int | Unset | None = UNSET,
         allowed_vlans: str | None = None,
         isolation_enabled: bool | None = None,
         rstp_enabled: bool | None = None,
         stp_guard: UpdateOrganizationConfigTemplateSwitchProfilePortStpGuard | None = None,
         stp_port_fast_trunk: bool | None = None,
         link_negotiation: str | None = None,
-        port_schedule_id: str | None = None,
+        port_schedule_id: str | Unset | None = UNSET,
         udld: UpdateOrganizationConfigTemplateSwitchProfilePortUdld | None = None,
         access_policy_type: UpdateOrganizationConfigTemplateSwitchProfilePortAccessPolicyType
         | None = None,
         access_policy_number: int | None = None,
         mac_allow_list: list[str] | None = None,
-        mac_whitelist_limit: int | None = None,
+        mac_whitelist_limit: int | Unset | None = UNSET,
         sticky_mac_allow_list: list[str] | None = None,
         sticky_mac_allow_list_limit: int | None = None,
         storm_control_enabled: bool | None = None,
@@ -6975,7 +6976,7 @@ class Switch:
         path = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
 
         payload: dict[str, Any] = {}
-        if name is not None:
+        if name is not UNSET:
             payload["name"] = name
         if tags is not None:
             payload["tags"] = tags
@@ -6989,9 +6990,9 @@ class Switch:
             payload["fastPoe"] = fast_poe.model_dump(by_alias=True, exclude_none=True)
         if type_ is not None:
             payload["type"] = type_
-        if vlan is not None:
+        if vlan is not UNSET:
             payload["vlan"] = vlan
-        if voice_vlan is not None:
+        if voice_vlan is not UNSET:
             payload["voiceVlan"] = voice_vlan
         if allowed_vlans is not None:
             payload["allowedVlans"] = allowed_vlans
@@ -7005,7 +7006,7 @@ class Switch:
             payload["stpPortFastTrunk"] = stp_port_fast_trunk
         if link_negotiation is not None:
             payload["linkNegotiation"] = link_negotiation
-        if port_schedule_id is not None:
+        if port_schedule_id is not UNSET:
             payload["portScheduleId"] = port_schedule_id
         if udld is not None:
             payload["udld"] = udld
@@ -7015,7 +7016,7 @@ class Switch:
             payload["accessPolicyNumber"] = access_policy_number
         if mac_allow_list is not None:
             payload["macAllowList"] = mac_allow_list
-        if mac_whitelist_limit is not None:
+        if mac_whitelist_limit is not UNSET:
             payload["macWhitelistLimit"] = mac_whitelist_limit
         if sticky_mac_allow_list is not None:
             payload["stickyMacAllowList"] = sticky_mac_allow_list

@@ -10,6 +10,7 @@ from __future__ import annotations
 import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
+from meraki_client._common import UNSET, Unset
 from meraki_client.schemas import (
     CreateNetworkSensorAlertsProfileConditionsItem,
     CreateNetworkSensorAlertsProfileRecipients,
@@ -606,7 +607,7 @@ class Sensor:
         recipients: CreateNetworkSensorAlertsProfileRecipients | None = None,
         serials: list[str] | None = None,
         include_sensor_url: bool | None = None,
-        message: str | None = None,
+        message: str | Unset | None = UNSET,
     ) -> NetworkSensorAlertsProfileResponse:
         """Creates a sensor alert profile for a network.
 
@@ -741,7 +742,7 @@ class Sensor:
             payload["serials"] = serials
         if include_sensor_url is not None:
             payload["includeSensorUrl"] = include_sensor_url
-        if message is not None:
+        if message is not UNSET:
             payload["message"] = message
 
         return self._session.post(
@@ -886,7 +887,7 @@ class Sensor:
         recipients: UpdateNetworkSensorAlertsProfileRecipients | None = None,
         serials: list[str] | None = None,
         include_sensor_url: bool | None = None,
-        message: str | None = None,
+        message: str | Unset | None = UNSET,
     ) -> NetworkSensorAlertsProfileResponse:
         """Updates a sensor alert profile for a network.
 
@@ -1023,7 +1024,7 @@ class Sensor:
             payload["serials"] = serials
         if include_sensor_url is not None:
             payload["includeSensorUrl"] = include_sensor_url
-        if message is not None:
+        if message is not UNSET:
             payload["message"] = message
 
         return self._session.put(

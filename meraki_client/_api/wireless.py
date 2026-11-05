@@ -10,6 +10,7 @@ from __future__ import annotations
 import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
+from meraki_client._common import UNSET, Unset
 from meraki_client.schemas import (
     AssignNetworkWirelessEthernetPortsProfilesResponse,
     CreateDeviceWirelessZigbeeEnrollmentResponse,
@@ -388,9 +389,9 @@ class Wireless:
         self,
         serial: str,
         *,
-        uuid: str | None = None,
-        major: int | None = None,
-        minor: int | None = None,
+        uuid: str | Unset | None = UNSET,
+        major: int | Unset | None = UNSET,
+        minor: int | Unset | None = UNSET,
     ) -> DeviceWirelessBluetoothSettingsResponse:
         """Update the bluetooth settings for a wireless device.
 
@@ -422,11 +423,11 @@ class Wireless:
         path = f"/devices/{serial}/wireless/bluetooth/settings"
 
         payload: dict[str, Any] = {}
-        if uuid is not None:
+        if uuid is not UNSET:
             payload["uuid"] = uuid
-        if major is not None:
+        if major is not UNSET:
             payload["major"] = major
-        if minor is not None:
+        if minor is not UNSET:
             payload["minor"] = minor
 
         return self._session.put(
@@ -840,7 +841,7 @@ class Wireless:
         self,
         serial: str,
         *,
-        rf_profile_id: str | None = None,
+        rf_profile_id: str | Unset | None = UNSET,
         two_four_ghz_settings: UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateDeviceWirelessRadioSettingsFiveGhzSettings | None = None,
     ) -> DeviceWirelessRadioSettingsResponse:
@@ -883,7 +884,7 @@ class Wireless:
         path = f"/devices/{serial}/wireless/radio/settings"
 
         payload: dict[str, Any] = {}
-        if rf_profile_id is not None:
+        if rf_profile_id is not UNSET:
             payload["rfProfileId"] = rf_profile_id
         if two_four_ghz_settings is not None:
             payload["twoFourGhzSettings"] = two_four_ghz_settings.model_dump(
@@ -7370,7 +7371,7 @@ class Wireless:
         name: str | None = None,
         passphrase: str | None = None,
         group_policy_id: str | None = None,
-        expires_at: str | None = None,
+        expires_at: str | Unset | None = UNSET,
     ) -> NetworkWirelessSsidIdentityPskResponse:
         """Update an Identity PSK.
 
@@ -7414,7 +7415,7 @@ class Wireless:
             payload["passphrase"] = passphrase
         if group_policy_id is not None:
             payload["groupPolicyId"] = group_policy_id
-        if expires_at is not None:
+        if expires_at is not UNSET:
             payload["expiresAt"] = expires_at
 
         return self._session.put(

@@ -26,8 +26,16 @@
         {% endif %}
         {% if body_params|length > 0 %}
         payload: dict[str, Any] = {}
-        {% for snake, orig, is_schema, is_list, is_dict in body_params %}
+        {% for snake, orig, is_schema, is_list, is_dict, is_nullable in body_params %}
+        {% if is_nullable and is_schema %}
+        if {{ snake }} is None:
+            payload['{{ orig }}'] = None
+        elif {{ snake }} is not UNSET:
+        {% elif is_nullable %}
+        if {{ snake }} is not UNSET:
+        {% else %}
         if {{ snake }} is not None:
+        {% endif %}
             {% if is_schema and is_list %}
             payload['{{ orig }}'] = [item.model_dump(by_alias=True, exclude_none=True) for item in {{ snake }}]
             {% elif is_schema and is_dict %}

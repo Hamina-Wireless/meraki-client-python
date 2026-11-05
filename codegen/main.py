@@ -78,6 +78,7 @@ class BodyParam:
     is_schema: bool = False
     is_list: bool = False
     is_dict: bool = False
+    is_nullable: bool = False
 
 
 @dataclass
@@ -553,7 +554,7 @@ def generate_module(  # noqa: PLR0915
                     raise ValueError(f"Endpoint {operation_id} has 200/201 response but no schema")
 
             body_params_for_template = [
-                (bp.snake_name, bp.orig_name, bp.is_schema, bp.is_list, bp.is_dict)
+                (bp.snake_name, bp.orig_name, bp.is_schema, bp.is_list, bp.is_dict, bp.is_nullable)
                 for bp in function_definition.body_params
             ]
 
@@ -880,8 +881,10 @@ def collect_request_body_params(
         is_schema = param_schema is not None
         is_list = param_schema.is_list if param_schema else False
         is_dict = param_schema.is_dict if param_schema else False
+        # Optional nullable fields default to UNSET so that an explicit None is sent as null.
+        is_nullable = bool(property_schema.nullable) and property_name not in required_properties
         function_definition.body_params.append(
-            BodyParam(snake_name, property_name, is_schema, is_list, is_dict)
+            BodyParam(snake_name, property_name, is_schema, is_list, is_dict, is_nullable)
         )
 
         if snake_name in function_definition.path_params:
@@ -907,6 +910,10 @@ def collect_request_body_params(
 
         if property_name in required_properties:
             function_definition.required_args.append(f"{snake_name}: {py_type}")
+        elif is_nullable:
+            function_definition.optional_args.append(
+                f"{snake_name}: {py_type} | Unset | None = UNSET"
+            )
         else:
             function_definition.optional_args.append(f"{snake_name}: {py_type} | None = None")
 

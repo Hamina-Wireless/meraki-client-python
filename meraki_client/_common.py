@@ -2,9 +2,24 @@
 
 import re
 import urllib.parse
-from enum import StrEnum
+from enum import Enum, StrEnum
+from typing import Literal, TypeAlias
 
 import httpx
+
+
+class _UnsetType(Enum):
+    """Sentinel type for request body fields that are left out of the request."""
+
+    UNSET = "UNSET"
+
+    def __repr__(self) -> str:
+        return "UNSET"
+
+
+UNSET = _UnsetType.UNSET
+"""Default of nullable request body fields: the field is not sent, while `None` sends null."""
+Unset: TypeAlias = Literal[_UnsetType.UNSET]
 
 _USER_AGENT_REGEX = re.compile(
     r"^[A-Za-z0-9]+(?:/[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)*(-[a-z]+)?)? [A-Za-z-0-9]+$"

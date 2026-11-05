@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Fixed
+
+- Optional request body fields that the spec marks nullable can now be set to null. They default to the new `UNSET` sentinel and are left out of the request unless given.
+
+### Changed
+
+- **Breaking:** passing `None` explicitly to a nullable request body field now sends `null` instead of leaving the field out. Omit the argument to leave the field unchanged.
 
 ## v0.22.0
 
