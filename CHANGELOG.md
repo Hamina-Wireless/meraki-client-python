@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+-
+
+## v0.23.0
+
 ### Fixed
 
 - Optional request body fields that the spec marks nullable can now be set to null. They default to the new `UNSET` sentinel and are left out of the request unless given.
