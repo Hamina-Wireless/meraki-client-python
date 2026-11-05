@@ -10,6 +10,7 @@ from __future__ import annotations
 import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
+from meraki_client._common import UNSET, Unset
 from meraki_client.schemas import (
     ClipDeviceCameraResponse,
     CreateNetworkCameraQualityRetentionProfileSmartRetention,
@@ -576,7 +577,7 @@ class Camera:
         self,
         serial: str,
         *,
-        profile_id: str | None = None,
+        profile_id: str | Unset | None = UNSET,
         motion_based_retention_enabled: bool | None = None,
         audio_recording_enabled: bool | None = None,
         restricted_bandwidth_mode_enabled: bool | None = None,
@@ -631,7 +632,7 @@ class Camera:
         path = f"/devices/{serial}/camera/qualityAndRetention"
 
         payload: dict[str, Any] = {}
-        if profile_id is not None:
+        if profile_id is not UNSET:
             payload["profileId"] = profile_id
         if motion_based_retention_enabled is not None:
             payload["motionBasedRetentionEnabled"] = motion_based_retention_enabled
@@ -697,7 +698,7 @@ class Camera:
         serial: str,
         *,
         sense_enabled: bool | None = None,
-        mqtt_broker_id: str | None = None,
+        mqtt_broker_id: str | Unset | None = UNSET,
         audio_detection: UpdateDeviceCameraSenseAudioDetection | None = None,
         detection_model_id: str | None = None,
     ) -> DeviceCameraSenseResponse:
@@ -740,7 +741,7 @@ class Camera:
         payload: dict[str, Any] = {}
         if sense_enabled is not None:
             payload["senseEnabled"] = sense_enabled
-        if mqtt_broker_id is not None:
+        if mqtt_broker_id is not UNSET:
             payload["mqttBrokerId"] = mqtt_broker_id
         if audio_detection is not None:
             payload["audioDetection"] = audio_detection.model_dump(by_alias=True, exclude_none=True)
@@ -1048,8 +1049,8 @@ class Camera:
         cloud_archive_enabled: bool | None = None,
         motion_detector_version: int | None = None,
         smart_retention: CreateNetworkCameraQualityRetentionProfileSmartRetention | None = None,
-        schedule_id: str | None = None,
-        max_retention_days: int | None = None,
+        schedule_id: str | Unset | None = UNSET,
+        max_retention_days: int | Unset | None = UNSET,
         video_settings: CreateNetworkCameraQualityRetentionProfileVideoSettings | None = None,
     ) -> NetworkCameraQualityRetentionProfileResponse:
         """Creates new quality retention profile for this network.
@@ -1128,9 +1129,9 @@ class Camera:
             payload["motionDetectorVersion"] = motion_detector_version
         if smart_retention is not None:
             payload["smartRetention"] = smart_retention.model_dump(by_alias=True, exclude_none=True)
-        if schedule_id is not None:
+        if schedule_id is not UNSET:
             payload["scheduleId"] = schedule_id
-        if max_retention_days is not None:
+        if max_retention_days is not UNSET:
             payload["maxRetentionDays"] = max_retention_days
         if video_settings is not None:
             payload["videoSettings"] = video_settings.model_dump(by_alias=True, exclude_none=True)
@@ -1211,8 +1212,8 @@ class Camera:
         cloud_archive_enabled: bool | None = None,
         motion_detector_version: int | None = None,
         smart_retention: UpdateNetworkCameraQualityRetentionProfileSmartRetention | None = None,
-        schedule_id: str | None = None,
-        max_retention_days: int | None = None,
+        schedule_id: str | Unset | None = UNSET,
+        max_retention_days: int | Unset | None = UNSET,
         video_settings: UpdateNetworkCameraQualityRetentionProfileVideoSettings | None = None,
     ) -> NetworkCameraQualityRetentionProfileResponse:
         """Update an existing quality retention profile for this network.
@@ -1297,9 +1298,9 @@ class Camera:
             payload["motionDetectorVersion"] = motion_detector_version
         if smart_retention is not None:
             payload["smartRetention"] = smart_retention.model_dump(by_alias=True, exclude_none=True)
-        if schedule_id is not None:
+        if schedule_id is not UNSET:
             payload["scheduleId"] = schedule_id
-        if max_retention_days is not None:
+        if max_retention_days is not UNSET:
             payload["maxRetentionDays"] = max_retention_days
         if video_settings is not None:
             payload["videoSettings"] = video_settings.model_dump(by_alias=True, exclude_none=True)

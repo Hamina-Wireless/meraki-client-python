@@ -10,6 +10,7 @@ from __future__ import annotations
 import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
+from meraki_client._common import UNSET, Unset
 from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
@@ -3760,7 +3761,7 @@ class Organizations:
         network_ids: list[str],
         alert_types: list[str],
         configuration: CreateOrganizationAssuranceAlertsProfileConfiguration,
-        alert_schedule_id: str | None = None,
+        alert_schedule_id: str | Unset | None = UNSET,
     ) -> OrganizationAssuranceAlertsProfileResponse:
         """Create an alert profile.
 
@@ -3838,7 +3839,7 @@ class Organizations:
             payload["networkIds"] = network_ids
         if alert_types is not None:
             payload["alertTypes"] = alert_types
-        if alert_schedule_id is not None:
+        if alert_schedule_id is not UNSET:
             payload["alertScheduleId"] = alert_schedule_id
         if configuration is not None:
             payload["configuration"] = configuration.model_dump(by_alias=True, exclude_none=True)
@@ -3860,7 +3861,7 @@ class Organizations:
         network_ids: list[str],
         alert_types: list[str],
         configuration: UpdateOrganizationAssuranceAlertsProfileConfiguration,
-        alert_schedule_id: str | None = None,
+        alert_schedule_id: str | Unset | None = UNSET,
     ) -> OrganizationAssuranceAlertsProfileResponse:
         """Update an alert profile.
 
@@ -3940,7 +3941,7 @@ class Organizations:
             payload["networkIds"] = network_ids
         if alert_types is not None:
             payload["alertTypes"] = alert_types
-        if alert_schedule_id is not None:
+        if alert_schedule_id is not UNSET:
             payload["alertScheduleId"] = alert_schedule_id
         if configuration is not None:
             payload["configuration"] = configuration.model_dump(by_alias=True, exclude_none=True)
@@ -11303,7 +11304,7 @@ class Organizations:
         )
 
     def update_organization_license(
-        self, *, organization_id: str, license_id: str, device_serial: str | None = None
+        self, *, organization_id: str, license_id: str, device_serial: str | Unset | None = UNSET
     ) -> OrganizationLicenseResponse:
         """Update a license.
 
@@ -11355,7 +11356,7 @@ class Organizations:
         path = f"/organizations/{organization_id}/licenses/{license_id}"
 
         payload: dict[str, Any] = {}
-        if device_serial is not None:
+        if device_serial is not UNSET:
             payload["deviceSerial"] = device_serial
 
         return self._session.put(
@@ -11685,7 +11686,7 @@ class Organizations:
         tags: list[str] | None = None,
         time_zone: str | None = None,
         copy_from_network_id: str | None = None,
-        notes: str | None = None,
+        notes: str | Unset | None = UNSET,
     ) -> CreateOrganizationNetworkResponse:
         """Create a network.
 
@@ -11747,7 +11748,7 @@ class Organizations:
             payload["timeZone"] = time_zone
         if copy_from_network_id is not None:
             payload["copyFromNetworkId"] = copy_from_network_id
-        if notes is not None:
+        if notes is not UNSET:
             payload["notes"] = notes
 
         return self._session.post(

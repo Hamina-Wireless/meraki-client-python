@@ -10,6 +10,7 @@ from __future__ import annotations
 import urllib.parse
 from typing import TYPE_CHECKING, Any
 
+from meraki_client._common import UNSET, Unset
 from meraki_client.schemas import (
     BlinkDeviceLedsResponse,
     CreateDeviceCellularUplinksBandsMasksUpdateResponse,
@@ -144,15 +145,15 @@ class Devices:
         self,
         serial: str,
         *,
-        name: str | None = None,
+        name: str | Unset | None = UNSET,
         tags: list[str] | None = None,
         lat: float | None = None,
         lng: float | None = None,
-        address: str | None = None,
-        notes: str | None = None,
+        address: str | Unset | None = UNSET,
+        notes: str | Unset | None = UNSET,
         move_map_marker: bool | None = None,
-        switch_profile_id: str | None = None,
-        floor_plan_id: str | None = None,
+        switch_profile_id: str | Unset | None = UNSET,
+        floor_plan_id: str | Unset | None = UNSET,
     ) -> DeviceResponse:
         """Update the attributes of a device.
 
@@ -217,7 +218,7 @@ class Devices:
         path = f"/devices/{serial}"
 
         payload: dict[str, Any] = {}
-        if name is not None:
+        if name is not UNSET:
             payload["name"] = name
         if tags is not None:
             payload["tags"] = tags
@@ -225,15 +226,15 @@ class Devices:
             payload["lat"] = lat
         if lng is not None:
             payload["lng"] = lng
-        if address is not None:
+        if address is not UNSET:
             payload["address"] = address
-        if notes is not None:
+        if notes is not UNSET:
             payload["notes"] = notes
         if move_map_marker is not None:
             payload["moveMapMarker"] = move_map_marker
-        if switch_profile_id is not None:
+        if switch_profile_id is not UNSET:
             payload["switchProfileId"] = switch_profile_id
-        if floor_plan_id is not None:
+        if floor_plan_id is not UNSET:
             payload["floorPlanId"] = floor_plan_id
 
         return await self._session.put(

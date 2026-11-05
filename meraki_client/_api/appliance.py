@@ -10,6 +10,7 @@ from __future__ import annotations
 import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
+from meraki_client._common import UNSET, Unset
 from meraki_client.schemas import (
     AddNetworkApplianceUmbrellaPoliciesPolicy,
     AddNetworkApplianceUmbrellaPoliciesResponse,
@@ -711,7 +712,7 @@ class Appliance:
         self,
         serial: str,
         *,
-        rf_profile_id: str | None = None,
+        rf_profile_id: str | Unset | None = UNSET,
         two_four_ghz_settings: UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateDeviceApplianceRadioSettingsFiveGhzSettings | None = None,
     ) -> DeviceApplianceRadioSettingsResponse:
@@ -754,7 +755,7 @@ class Appliance:
         path = f"/devices/{serial}/appliance/radio/settings"
 
         payload: dict[str, Any] = {}
-        if rf_profile_id is not None:
+        if rf_profile_id is not UNSET:
             payload["rfProfileId"] = rf_profile_id
         if two_four_ghz_settings is not None:
             payload["twoFourGhzSettings"] = two_four_ghz_settings.model_dump(
@@ -2924,7 +2925,7 @@ class Appliance:
         *,
         network_id: str,
         interface_id: str,
-        port: UpdateNetworkApplianceInterfacesL3Port | None = None,
+        port: UpdateNetworkApplianceInterfacesL3Port | Unset | None = UNSET,
         ipv4: UpdateNetworkApplianceInterfacesL3Ipv4 | None = None,
     ) -> NetworkApplianceInterfacesL3Response:
         """Update wired L3 interface.
@@ -2965,7 +2966,9 @@ class Appliance:
         path = f"/networks/{network_id}/appliance/interfaces/l3/{interface_id}"
 
         payload: dict[str, Any] = {}
-        if port is not None:
+        if port is None:
+            payload["port"] = None
+        elif port is not UNSET:
             payload["port"] = port.model_dump(by_alias=True, exclude_none=True)
         if ipv4 is not None:
             payload["ipv4"] = ipv4.model_dump(by_alias=True, exclude_none=True)
@@ -4897,7 +4900,7 @@ class Appliance:
         name: str | None = None,
         subnet: str | None = None,
         gateway_ip: str | None = None,
-        gateway_vlan_id: int | None = None,
+        gateway_vlan_id: int | Unset | None = UNSET,
         enabled: bool | None = None,
         fixed_ip_assignments: dict[str, UpdateNetworkApplianceStaticRouteFixedIpAssignmentsValue]
         | None = None,
@@ -4967,7 +4970,7 @@ class Appliance:
             payload["subnet"] = subnet
         if gateway_ip is not None:
             payload["gatewayIp"] = gateway_ip
-        if gateway_vlan_id is not None:
+        if gateway_vlan_id is not UNSET:
             payload["gatewayVlanId"] = gateway_vlan_id
         if enabled is not None:
             payload["enabled"] = enabled
@@ -5140,9 +5143,9 @@ class Appliance:
         *,
         network_id: str,
         name: str,
-        max_latency: int | None = None,
-        max_jitter: int | None = None,
-        max_loss_percentage: int | None = None,
+        max_latency: int | Unset | None = UNSET,
+        max_jitter: int | Unset | None = UNSET,
+        max_loss_percentage: int | Unset | None = UNSET,
     ) -> NetworkApplianceTrafficShapingCustomPerformanceClassResponse:
         """Add a custom performance class for an MX network.
 
@@ -5176,11 +5179,11 @@ class Appliance:
         payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
-        if max_latency is not None:
+        if max_latency is not UNSET:
             payload["maxLatency"] = max_latency
-        if max_jitter is not None:
+        if max_jitter is not UNSET:
             payload["maxJitter"] = max_jitter
-        if max_loss_percentage is not None:
+        if max_loss_percentage is not UNSET:
             payload["maxLossPercentage"] = max_loss_percentage
 
         return self._session.post(
@@ -5234,9 +5237,9 @@ class Appliance:
         network_id: str,
         custom_performance_class_id: str,
         name: str | None = None,
-        max_latency: int | None = None,
-        max_jitter: int | None = None,
-        max_loss_percentage: int | None = None,
+        max_latency: int | Unset | None = UNSET,
+        max_jitter: int | Unset | None = UNSET,
+        max_loss_percentage: int | Unset | None = UNSET,
     ) -> NetworkApplianceTrafficShapingCustomPerformanceClassResponse:
         """Update a custom performance class for an MX network.
 
@@ -5272,11 +5275,11 @@ class Appliance:
         payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
-        if max_latency is not None:
+        if max_latency is not UNSET:
             payload["maxLatency"] = max_latency
-        if max_jitter is not None:
+        if max_jitter is not UNSET:
             payload["maxJitter"] = max_jitter
-        if max_loss_percentage is not None:
+        if max_loss_percentage is not UNSET:
             payload["maxLossPercentage"] = max_loss_percentage
 
         return self._session.put(
@@ -6312,7 +6315,7 @@ class Appliance:
         name: str,
         subnet: str | None = None,
         appliance_ip: str | None = None,
-        group_policy_id: str | None = None,
+        group_policy_id: str | Unset | None = UNSET,
         template_vlan_type: CreateNetworkApplianceVlanTemplateVlanType | None = None,
         cidr: str | None = None,
         mask: int | None = None,
@@ -6326,7 +6329,7 @@ class Appliance:
         dhcp_boot_filename: str | None = None,
         dhcp_options: list[CreateNetworkApplianceVlanDhcpOptionsItem] | None = None,
         sgt: CreateNetworkApplianceVlanSgt | None = None,
-        vrf: CreateNetworkApplianceVlanVrf | None = None,
+        vrf: CreateNetworkApplianceVlanVrf | Unset | None = UNSET,
         uplinks: list[CreateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> CreateNetworkApplianceVlanResponse:
         """Add a VLAN.
@@ -6428,7 +6431,7 @@ class Appliance:
             payload["subnet"] = subnet
         if appliance_ip is not None:
             payload["applianceIp"] = appliance_ip
-        if group_policy_id is not None:
+        if group_policy_id is not UNSET:
             payload["groupPolicyId"] = group_policy_id
         if template_vlan_type is not None:
             payload["templateVlanType"] = template_vlan_type
@@ -6458,7 +6461,9 @@ class Appliance:
             ]
         if sgt is not None:
             payload["sgt"] = sgt.model_dump(by_alias=True, exclude_none=True)
-        if vrf is not None:
+        if vrf is None:
+            payload["vrf"] = None
+        elif vrf is not UNSET:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if uplinks is not None:
             payload["uplinks"] = [
@@ -6648,7 +6653,7 @@ class Appliance:
         name: str | None = None,
         subnet: str | None = None,
         appliance_ip: str | None = None,
-        group_policy_id: str | None = None,
+        group_policy_id: str | Unset | None = UNSET,
         vpn_nat_subnet: str | None = None,
         dhcp_handling: UpdateNetworkApplianceVlanDhcpHandling | None = None,
         dhcp_relay_server_ips: list[str] | None = None,
@@ -6666,7 +6671,7 @@ class Appliance:
         ipv6: UpdateNetworkApplianceVlanIpv6 | None = None,
         mandatory_dhcp: UpdateNetworkApplianceVlanMandatoryDhcp | None = None,
         sgt: UpdateNetworkApplianceVlanSgt | None = None,
-        vrf: UpdateNetworkApplianceVlanVrf | None = None,
+        vrf: UpdateNetworkApplianceVlanVrf | Unset | None = UNSET,
         uplinks: list[UpdateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> NetworkApplianceVlanResponse:
         """Update a VLAN.
@@ -6808,7 +6813,7 @@ class Appliance:
             payload["subnet"] = subnet
         if appliance_ip is not None:
             payload["applianceIp"] = appliance_ip
-        if group_policy_id is not None:
+        if group_policy_id is not UNSET:
             payload["groupPolicyId"] = group_policy_id
         if vpn_nat_subnet is not None:
             payload["vpnNatSubnet"] = vpn_nat_subnet
@@ -6848,7 +6853,9 @@ class Appliance:
             payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
         if sgt is not None:
             payload["sgt"] = sgt.model_dump(by_alias=True, exclude_none=True)
-        if vrf is not None:
+        if vrf is None:
+            payload["vrf"] = None
+        elif vrf is not UNSET:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if uplinks is not None:
             payload["uplinks"] = [
@@ -6983,9 +6990,9 @@ class Appliance:
         ibgp_hold_timer: int | None = None,
         ipv6: UpdateNetworkApplianceVpnBgpIpv6 | None = None,
         tunnel_down_termination: UpdateNetworkApplianceVpnBgpTunnelDownTermination | None = None,
-        local_as_number: int | None = None,
+        local_as_number: int | Unset | None = UNSET,
         priority_route: UpdateNetworkApplianceVpnBgpPriorityRoute | None = None,
-        router_id: str | None = None,
+        router_id: str | Unset | None = UNSET,
         neighbors: list[UpdateNetworkApplianceVpnBgpNeighborsItem] | None = None,
     ) -> NetworkApplianceVpnBgpResponse:
         """Update a Hub BGP Configuration.
@@ -7104,11 +7111,11 @@ class Appliance:
             payload["tunnelDownTermination"] = tunnel_down_termination.model_dump(
                 by_alias=True, exclude_none=True
             )
-        if local_as_number is not None:
+        if local_as_number is not UNSET:
             payload["localAsNumber"] = local_as_number
         if priority_route is not None:
             payload["priorityRoute"] = priority_route
-        if router_id is not None:
+        if router_id is not UNSET:
             payload["routerId"] = router_id
         if neighbors is not None:
             payload["neighbors"] = [
