@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+-
+
+## v0.24.0
+
 ### Fixed
 
 - `getOrganizationWirelessSsidsStatusesByDevice` no longer fails validation when the API returns `basicServiceSets[].bssid` as an object instead of the documented string. The field is now typed `str | dict[str, Any] | None`.
