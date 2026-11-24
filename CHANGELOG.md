@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Fixed
+
+- `getOrganizationWirelessSsidsStatusesByDevice` no longer fails validation when the API returns `basicServiceSets[].bssid` as an object instead of the documented string. The field is now typed `str | dict[str, Any] | None`.
+
+### Changed
+
+- `str(InvalidResponseError)` now lists every distinct validation failure as the field path with list indices replaced by `*`, the pydantic error type and the input's type, e.g. `items.*.basicServiceSets.*.bssid: string_type (got dict)`, after the original message. Failures are deduplicated and sorted, and the "... and N more errors" suffix is gone, so the text no longer depends on how many items failed and can be used as an error tracker fingerprint. Input values are still left out.
 
 ## v0.23.0
 

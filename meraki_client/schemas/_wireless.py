@@ -4273,7 +4273,7 @@ class WirelessBackgroundTraffic(_BaseSchema):
 class WirelessBasicServiceSetsItem(_BaseSchema):
     """Schema for WirelessBasicServiceSetsItem."""
 
-    bssid: str | None = None
+    bssid: str | dict[str, Any] | None = None
     ssid: WirelessSsid5 | None = None
     radio: WirelessRadio2 | None = None
 

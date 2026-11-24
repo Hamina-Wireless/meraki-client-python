@@ -398,3 +398,8 @@ response = { objectIds = "list[str]" }
 [updateOrganizationPolicyObjectsGroup]
 required = ["id", "name", "category", "createdAt", "updatedAt"]
 response = { objectIds = "list[str]" }
+
+[getOrganizationWirelessSsidsStatusesByDevice]
+# bssid is documented as a string, but for some access points the API returns an object
+# such as {"mac_address": "aa:bb:cc:dd:ee:ff", "enabled": true}.
+response = { "items.basicServiceSets.bssid" = "str | dict[str, Any]" }
