@@ -126,14 +126,31 @@ class InvalidResponseError(MerakiException):
         super().__init__(message, cause=cause)
 
     def __str__(self) -> str:
-        """Return the exception message with validation error details."""
+        """Return the message and every distinct validation failure, without input values.
+
+        Each failure is the field path with list indices replaced by `*`, the pydantic error type
+        and the input's Python type, e.g. `items.*.basicServiceSets.*.bssid: string_type (got
+        dict)`. Failures are deduplicated and sorted, so the text stays the same for any number
+        of failing items and can be used as an error tracker fingerprint. Input values are left out
+        because they can contain customer data.
+        """
+        message = self.args[0] if self.args else "Unknown error"
         if self.validation_error:
-            errors = self.validation_error.errors()
-            details = "; ".join(f"{e['loc']}: {e['msg']}" for e in errors[:5])
-            if len(errors) > 5:
-                details += f" ... and {len(errors) - 5} more errors"
-            return f"InvalidResponseError: {details}"
-        return f"InvalidResponseError: {self.args[0] if self.args else 'Unknown error'}"
+            failures = sorted(
+                {
+                    f"{_field_path(e['loc'])}: {e['type']} (got {type(e['input']).__name__})"
+                    for e in self.validation_error.errors(include_url=False)
+                }
+            )
+            return f"InvalidResponseError: {message}: {'; '.join(failures)}"
+        return f"InvalidResponseError: {message}"
+
+
+def _field_path(loc: tuple[int | str, ...]) -> str:
+    """Join a pydantic error location into a dotted path, with list indices as `*`."""
+    if not loc:
+        return "<root>"
+    return ".".join("*" if isinstance(part, int) else part for part in loc)
 
 
 class MerakiConnectionError(MerakiException):
